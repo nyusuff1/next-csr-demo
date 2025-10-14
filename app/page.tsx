@@ -1,18 +1,26 @@
 'use client';
 import { useEffect, useState } from "react";
 
+// 1️⃣ Definisikan tipe User
+type User = {
+  id: number;
+  name: string;
+  email: string;
+};
+
 export default function UsersPage() {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true); // tambahkan state loading
+  // 2️⃣ Tambahkan tipe pada useState
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then(res => res.json())
-      .then(data => {
+      .then((data: User[]) => {
         setUsers(data);
-        setLoading(false); // ubah jadi false setelah data datang
+        setLoading(false);
       })
-      .catch(() => setLoading(false)); // kalau error, tetap matikan loading
+      .catch(() => setLoading(false));
   }, []);
 
   if (loading) {
