@@ -1,17 +1,23 @@
-// app/users/page.jsx
+// app/users/page.tsx  ← pastikan file kamu pakai .tsx biar bisa pakai type
+type User = {
+  id: number;
+  name: string;
+  email: string;
+};
 
 export default async function UsersPage() {
-  // Fetch dilakukan di server setiap kali ada request
   const res = await fetch("https://jsonplaceholder.typicode.com/users", {
-    cache: "no-store", // pastikan SSR (tidak disimpan cache)
+    cache: "no-store",
   });
-  const users = await res.json();
+
+  // kasih tahu TypeScript bahwa hasil JSON-nya berupa User[]
+  const users: User[] = await res.json();
 
   return (
     <div style={{ padding: "20px" }}>
       <h2>Daftar User (SSR)</h2>
       <ul>
-        {users.map(u => (
+        {users.map((u) => (
           <li key={u.id}>
             <strong>{u.name}</strong> — {u.email}
           </li>
